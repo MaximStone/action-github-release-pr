@@ -7,11 +7,11 @@ inputs:
     required: true
   repository:
     description: 'The owner and repository name. For example, octocat/Hello-World.'
-  production-branch:
+  target-branch:
     description: 'The branch name that is deployed in production environment.'
     default: 'main'
-  staging-branch:
-    description: 'The branch name that the feature branches are merged into and is going to be merged into the "production" branch.'
+  from-branch:
+    description: 'The branch name that the feature branches are merged into and is going to be merged into the "target" branch.'
     default: 'develop'
   label:
     description: 'Label for adding to pull requests created. If not specified, any labels will not be added for pull requests.'
