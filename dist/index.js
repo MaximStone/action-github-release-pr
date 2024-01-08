@@ -233,20 +233,22 @@ const github = __importStar(__nccwpck_require__(5438));
 const getInputs = () => {
     const { owner, repo } = repository();
     const token = core.getInput('token', { required: true });
-    const productionBranch = core.getInput('production-branch');
-    const stagingBranch = core.getInput('staging-branch');
-    const label = core.getInput('label');
+    const productionBranch = core.getInput('target-branch');
+    const stagingBranch = core.getInput('from-branch');
+    const labels = core.getInput('labels') ?? '';
     const isDraft = core.getBooleanInput('draft');
     const isDryRun = core.getBooleanInput('dry-run');
+    const title = core.getInput('title') ?? `Release ${new Date().toLocaleDateString()}`;
     return {
         token,
         owner,
         repo,
         productionBranch,
         stagingBranch,
-        label: label.length !== 0 ? label : undefined,
+        labels: labels.split(',').map((label) => label.trim()),
         isDraft,
-        isDryRun
+        isDryRun,
+        title
     };
 };
 exports.getInputs = getInputs;
@@ -312,18 +314,18 @@ async function run() {
             core.info("There isn't associated Pull Requests.");
             return;
         }
-        const repository = await gh.repository(productionBranch, stagingBranch, inputs.label);
-        if (inputs.label !== undefined && repository.labelId === undefined) {
-            core.setFailed(`Not found ${inputs.label}`);
+        const repository = await gh.repository(productionBranch, stagingBranch, inputs.labels?.[0]);
+        if (inputs.labels[0] !== undefined && repository.labelId === undefined) {
+            core.setFailed(`Not found ${inputs.labels[0]}`);
             return;
         }
-        const template = new template_1.Template(pullRequests.flatMap(pr => pr ?? []), repository.labelId !== undefined ? [repository.labelId] : undefined);
+        const template = new template_1.Template(inputs.title, pullRequests.flatMap(pr => pr ?? []), repository.labelId !== undefined ? [repository.labelId] : undefined);
         if (inputs.isDryRun) {
             core.info('Dry-run. Not mutating Pull Request.');
             core.info(`title: ${template.title}`);
             core.info(`body: ${template.body}`);
-            if (inputs.label !== undefined)
-                core.info(`labels: ${inputs.label}: ${template.labelIds}`);
+            if (inputs.labels !== undefined)
+                core.info(`labels: ${inputs.labels}: ${template.labelIds}`);
         }
         else {
             let pullRequestId;
@@ -430,9 +432,8 @@ mutation ($input: UpdatePullRequestInput!) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Template = void 0;
 class Template {
-    constructor(pullRequests = [], labelIds) {
-        const date = new Date();
-        this.title = `Release ${date.toLocaleDateString()}`;
+    constructor(title, pullRequests = [], labelIds) {
+        this.title = title;
         this.body = Array.from(new Map(pullRequests.map(pr => [pr.number, pr])).values())
             .sort((lhs, rhs) => {
             if (lhs.number === rhs.number)
@@ -440,7 +441,7 @@ class Template {
             return lhs.number > rhs.number ? 1 : -1;
         })
             .reduce((previous, pr) => {
-            return `${previous}- #${pr.number} @${pr.author}\n`;
+            return `- [ ] ${previous}- #${pr.number} @${pr.author}\n`;
         }, '');
         this.labelIds = labelIds;
     }

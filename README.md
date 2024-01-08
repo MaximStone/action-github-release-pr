@@ -1,24 +1,24 @@
-<a href="https://github.com/yutailang0119/action-github-pr-release/actions"><img alt="action-github-pr-release status" src="https://github.com/yutailang0119/action-github-pr-release/actions/workflows/test.yml/badge.svg"></a>
+<a href="https://github.com/MaximStone/action-github-release-pr/actions"><img alt="action-github-pr-release status" src="https://github.com/MaximStone/action-github-release-pr/actions/workflows/test.yml/badge.svg"></a>
 
 # GitHub Action to create a "release pull request"
 
 This action creates a "release pull request" that contains features list or pull requests.
 
-This action is inspired by [x-motemen/git-pr-release](https://github.com/x-motemen/git-pr-release).
-
 ## Features
 
-This action's features is based on [x-motemen/git-pr-release](https://github.com/x-motemen/git-pr-release).
+This action's features is based on [yutailang0119/action-github-pr-release](https://github.com/yutailang0119/action-github-pr-release).
 
-- [x] Select branchs
-    - Production branch
-    - Staging branch
-- [ ] Tempalate for title and body
-    - [ ] Difference update
+- [x] Select branches
+    - target branch
+    - from branch
+- [ ] Template for title and body
+    - [x] Title
+    - [ ] Body
 - [ ] Labels
     - [x] Support single label
     - [ ] Support Multiple labels
 - [ ] Replace mention
+- [ ] Assign authors
 - [x] As draft
 - [ ] Support command options
     - [ ] `squash`: Squash and merge
@@ -41,17 +41,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: yutailang0119/action-github-pr-release@v3
+      - uses: MaximStone/action-github-release-pr@v3
         with:
           token: ${{ github.token }}
-          production-branch: main
-          staging-branch: develop
-          label: Release
+          target-branch: main
+          from-branch: develop
+          labels: Release
+          title: Release v1.0.0
 ```
 
 ## Author
 
-[Yutaro Muta](https://github.com/yutailang0119)
+[MaximStone](https://github.com/MaximStone)
 
 ## References
 
@@ -59,4 +60,4 @@ jobs:
 
 ## License
 
-action-github-pr-release is available under the MIT license. See [the LICENSE file](./LICENSE) for more info.
+action-github-release-pr is available under the MIT license. See [the LICENSE file](./LICENSE) for more info.

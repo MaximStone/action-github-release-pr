@@ -1,6 +1,6 @@
 {
-  "name": "action-github-pr-release",
-  "version": "3.0.0",
+  "name": "action-github-release-pr",
+  "version": "3.0.1",
   "private": false,
   "description": "GitHub Actions to create a 'release pull request'",
   "main": "lib/main.js",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yutailang0119/action-github-pr-release.git"
+    "url": "git+https://github.com/MaximStone/action-github-release-pr.git"
   },
   "keywords": [
     "actions",
     "git-pr-relase",
     "git"
   ],
-  "author": "yutailang0119",
+  "author": "MaximStone",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.0",

@@ -5,7 +5,11 @@ export class Template {
   body: string
   labelIds?: string[]
 
-  constructor(title: string, pullRequests: PullRequestItem[] = [], labelIds?: string[]) {
+  constructor(
+    title: string,
+    pullRequests: PullRequestItem[] = [],
+    labelIds?: string[]
+  ) {
     this.title = title
     this.body = Array.from(
       new Map(pullRequests.map(pr => [pr.number, pr])).values()

@@ -19,7 +19,8 @@ export const getInputs = (): {
   const labels = core.getInput('labels') ?? ''
   const isDraft = core.getBooleanInput('draft')
   const isDryRun = core.getBooleanInput('dry-run')
-  const title = core.getBooleanInput('title') ?? `Release ${new Date().toLocaleDateString()}`
+  const title =
+    core.getInput('title') ?? `Release ${new Date().toLocaleDateString()}`
 
   return {
     token,
@@ -27,7 +28,7 @@ export const getInputs = (): {
     repo,
     productionBranch,
     stagingBranch,
-    labels: labels.split(',').map((label : string) => label.trim()),
+    labels: labels.split(',').map((label: string) => label.trim()),
     isDraft,
     isDryRun,
     title
