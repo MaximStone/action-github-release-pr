@@ -30,15 +30,16 @@ async function run(): Promise<void> {
     const repository = await gh.repository(
       productionBranch,
       stagingBranch,
-      inputs.label
+      inputs.labels?.[0]
     )
 
-    if (inputs.label !== undefined && repository.labelId === undefined) {
-      core.setFailed(`Not found ${inputs.label}`)
+    if (inputs.labels[0] !== undefined && repository.labelId === undefined) {
+      core.setFailed(`Not found ${inputs.labels[0]}`)
       return
     }
 
     const template = new Template(
+      inputs.title,
       pullRequests.flatMap(pr => pr ?? []),
       repository.labelId !== undefined ? [repository.labelId] : undefined
     )
@@ -47,8 +48,8 @@ async function run(): Promise<void> {
       core.info('Dry-run. Not mutating Pull Request.')
       core.info(`title: ${template.title}`)
       core.info(`body: ${template.body}`)
-      if (inputs.label !== undefined)
-        core.info(`labels: ${inputs.label}: ${template.labelIds}`)
+      if (inputs.labels !== undefined)
+        core.info(`labels: ${inputs.labels}: ${template.labelIds}`)
     } else {
       let pullRequestId: string
       if (repository.pullRequest === undefined) {

@@ -7,17 +7,19 @@ export const getInputs = (): {
   repo: string
   productionBranch: string
   stagingBranch: string
-  label?: string
+  labels: string[]
   isDraft: boolean
   isDryRun: boolean
+  title: string
 } => {
   const {owner, repo} = repository()
   const token = core.getInput('token', {required: true})
-  const productionBranch = core.getInput('production-branch')
-  const stagingBranch = core.getInput('staging-branch')
-  const label = core.getInput('label')
+  const productionBranch = core.getInput('target-branch')
+  const stagingBranch = core.getInput('from-branch')
+  const labels = core.getInput('labels') ?? ''
   const isDraft = core.getBooleanInput('draft')
   const isDryRun = core.getBooleanInput('dry-run')
+  const title = core.getBooleanInput('title') ?? `Release ${new Date().toLocaleDateString()}`
 
   return {
     token,
@@ -25,9 +27,10 @@ export const getInputs = (): {
     repo,
     productionBranch,
     stagingBranch,
-    label: label.length !== 0 ? label : undefined,
+    labels: labels.split(',').map((label : string) => label.trim()),
     isDraft,
-    isDryRun
+    isDryRun,
+    title
   }
 }
 

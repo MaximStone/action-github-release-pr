@@ -15,6 +15,8 @@ inputs:
     default: 'develop'
   label:
     description: 'Label for adding to pull requests created. If not specified, any labels will not be added for pull requests.'
+  title:
+    description: 'PR title. If not specified, the default title will be used.'
   draft:
     description: 'Create a pull request as a draft.'
     default: false

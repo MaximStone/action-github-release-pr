@@ -37,6 +37,7 @@ export class GitHub {
       headRefName,
       label
     })
+
     const pullRequest = (): {id: string} | undefined => {
       if (repository.pullRequests.edges === undefined) return undefined
       if (repository.pullRequests.edges === null) return undefined
@@ -46,6 +47,7 @@ export class GitHub {
       if (repository.pullRequests.edges[0]?.node.id === null) return undefined
       return {id: repository.pullRequests.edges[0].node.id}
     }
+
     const labelId = (): string | undefined => {
       if (repository.label === undefined) return undefined
       if (repository.label === null) return undefined
