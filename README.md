@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: MaximStone/action-github-release-pr@v3
+      - uses: MaximStone/action-github-release-pr@v3.1
         with:
           token: ${{ github.token }}
           target-branch: main
