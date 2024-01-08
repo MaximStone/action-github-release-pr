@@ -1,6 +1,6 @@
-name: 'GitHub Action to create a "release pull request"'
+name: 'Release PR creation'
 description: 'Create a "release pull request" that contains features list or pull requests.'
-author: 'yutailang0119'
+author: 'MaximStone'
 inputs:
   token:
     description: 'Token for GitHub API'
@@ -28,4 +28,4 @@ runs:
   main: 'dist/index.js'
 branding:
   icon: 'git-pull-request'
-  color: 'white'
+  color: 'purple'
