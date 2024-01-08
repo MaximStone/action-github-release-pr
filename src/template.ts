@@ -19,7 +19,7 @@ export class Template {
         return lhs.number > rhs.number ? 1 : -1
       })
       .reduce((previous: string, pr: PullRequestItem): string => {
-        return `- [ ] ${previous}- #${pr.number} @${pr.author}\n`
+        return `${previous}- [ ] #${pr.number} @${pr.author}\n`
       }, '')
     this.labelIds = labelIds
   }

@@ -441,7 +441,7 @@ class Template {
             return lhs.number > rhs.number ? 1 : -1;
         })
             .reduce((previous, pr) => {
-            return `- [ ] ${previous}- #${pr.number} @${pr.author}\n`;
+            return `${previous}- [ ] #${pr.number} @${pr.author}\n`;
         }, '');
         this.labelIds = labelIds;
     }
